@@ -1,0 +1,42 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dashboard-ingress
+  namespace: iot-monitoring
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/websocket-services: dashboard-backend
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+spec:
+  tls:
+  - hosts:
+    - your-domain.com
+    - api.your-domain.com
+    secretName: dashboard-tls
+  rules:
+  # Frontend
+  - host: your-domain.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: dashboard-frontend
+            port:
+              number: 80
+  
+  # Backend API
+  - host: api.your-domain.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: dashboard-backend
+            port:
+              number: 5000

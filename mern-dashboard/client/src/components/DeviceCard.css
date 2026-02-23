@@ -1,0 +1,147 @@
+.device-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.device-card {
+    padding: var(--spacing-lg);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.device-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+}
+
+.device-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-lg);
+}
+
+.device-info {
+    flex: 1;
+}
+
+.device-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-primary);
+}
+
+.device-type {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    text-transform: capitalize;
+}
+
+.device-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+    flex: 1;
+}
+
+.metric-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.metric-icon {
+    font-size: 1.25rem;
+    color: var(--accent-purple);
+    flex-shrink: 0;
+}
+
+.metric-content {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 60px 1fr 50px;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.metric-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.metric-bar {
+    height: 8px;
+    background: var(--bg-tertiary);
+    border-radius: 9999px;
+    overflow: hidden;
+    position: relative;
+}
+
+.metric-fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.5s ease, background 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.metric-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.metric-value {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: right;
+}
+
+.device-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--glass-border);
+    margin-top: auto;
+}
+
+.health-score {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.health-icon {
+    font-size: 1rem;
+}
+
+.last-seen {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}

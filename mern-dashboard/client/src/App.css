@@ -1,0 +1,42 @@
+/* App-level styles */
+.App {
+  min-height: 100vh;
+}
+
+/* Override default link styles */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Ensure all text is readable */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Focus styles for accessibility */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent-purple);
+  outline-offset: 2px;
+}
+
+/* Disable outline for mouse users */
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Custom selection color */
+::selection {
+  background: var(--accent-purple);
+  color: white;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}

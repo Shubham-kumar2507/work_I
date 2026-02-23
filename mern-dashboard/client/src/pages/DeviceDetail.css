@@ -1,0 +1,109 @@
+.device-detail-page {
+    min-height: 100vh;
+}
+
+.detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.header-actions {
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.device-info-card {
+    padding: var(--spacing-2xl);
+    margin-bottom: var(--spacing-xl);
+}
+
+.info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-2xl);
+    padding-bottom: var(--spacing-lg);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.device-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.device-id {
+    font-family: 'Fira Code', monospace;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-xl);
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.info-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.info-value {
+    font-size: 1.125rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-lg);
+}
+
+.error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    gap: var(--spacing-lg);
+}
+
+@media (max-width: 1024px) {
+    .info-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .header-actions {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 640px) {
+    .detail-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-md);
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+}

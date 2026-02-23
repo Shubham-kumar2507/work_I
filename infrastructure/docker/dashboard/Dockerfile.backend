@@ -1,0 +1,34 @@
+# Backend Dockerfile
+FROM node:18-alpine AS backend-builder
+
+WORKDIR /app/backend
+
+# Copy package files
+COPY backend/package*.json ./
+
+# Install dependencies
+RUN npm install --production
+
+# Copy backend source
+COPY backend/ ./
+
+# Stage 2: Production runtime
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy built backend
+COPY --from=backend-builder /app/backend ./
+
+# Expose port
+EXPOSE 5000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:5000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
+
+# Run as non-root user
+USER node
+
+# Start server
+CMD ["node", "server.js"]

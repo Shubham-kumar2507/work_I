@@ -1,0 +1,38 @@
+[Unit]
+Description=IoT Monitoring Agent
+Documentation=https://github.com/your-org/iot-dashboard
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=iot-agent
+Group=iot-agent
+WorkingDirectory=/opt/iot-agent
+
+# Main process
+ExecStart=/usr/bin/iot-agent --config /etc/iot-agent/config.json
+
+# Restart policy
+Restart=always
+RestartSec=10
+StartLimitInterval=0
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/log/iot-agent
+
+# Resource limits
+MemoryMax=100M
+CPUQuota=10%
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=iot-agent
+
+[Install]
+WantedBy=multi-user.target

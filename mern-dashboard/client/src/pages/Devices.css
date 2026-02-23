@@ -1,0 +1,123 @@
+.devices-page {
+    min-height: 100vh;
+}
+
+.filters-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.filter-icon {
+    font-size: 1.25rem;
+    color: var(--accent-purple);
+}
+
+.filter-buttons {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-transform: capitalize;
+}
+
+.filter-btn:hover {
+    background: var(--glass-bg);
+    border-color: var(--accent-purple);
+    color: var(--text-primary);
+}
+
+.filter-btn.active {
+    background: var(--gradient-primary);
+    border-color: transparent;
+    color: white;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal {
+    max-width: 500px;
+    width: 90%;
+    padding: var(--spacing-2xl);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-xl);
+}
+
+.device-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.form-group label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group select {
+    padding: var(--spacing-md);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all var(--transition-base);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--accent-purple);
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.1);
+}
+
+.form-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: flex-end;
+    margin-top: var(--spacing-lg);
+}

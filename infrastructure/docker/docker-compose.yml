@@ -1,0 +1,110 @@
+version: '3.8'
+
+services:
+  # MongoDB database
+  mongodb:
+    image: mongo:6.0
+    container_name: iot-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - mongodb_config:/data/configdb
+    environment:
+      - MONGO_INITDB_DATABASE=iot-dashboard
+    networks:
+      - iot-network
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build:
+      context: ../../mern-dashboard
+      dockerfile: ../infrastructure/docker/dashboard/Dockerfile.backend
+    container_name: iot-backend
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - MONGODB_URI=mongodb://mongodb:27017/iot-dashboard
+      - FRONTEND_URL=http://localhost:3000
+      - DATADOG_API_KEY=${DATADOG_API_KEY}
+      - DATADOG_APP_KEY=${DATADOG_APP_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - iot-network
+    volumes:
+      - backend_logs:/app/logs
+
+  # Frontend
+  frontend:
+    build:
+      context: ../../mern-dashboard
+      dockerfile: ../infrastructure/docker/dashboard/Dockerfile.frontend
+    container_name: iot-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - iot-network
+
+  # Datadog Agent (optional)
+  datadog-agent:
+    image: datadog/agent:latest
+    container_name: datadog-agent
+    restart: unless-stopped
+    environment:
+      - DD_API_KEY=${DATADOG_API_KEY}
+      - DD_SITE=datadoghq.com
+      - DD_DOGSTATSD_NON_LOCAL_TRAFFIC=true
+      - DD_LOGS_ENABLED=true
+      - DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL=true
+      - DD_PROCESS_AGENT_ENABLED=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /proc/:/host/proc/:ro
+      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
+    networks:
+      - iot-network
+    profiles:
+      - monitoring
+
+  # C++ Agent (example - typically deployed on remote devices)
+  iot-agent:
+    build:
+      context: ../../cpp-agent
+      dockerfile: ../infrastructure/docker/cpp-agent/Dockerfile
+    container_name: iot-agent-demo
+    restart: unless-stopped
+    environment:
+      - IOT_AGENT_ID=demo-agent-001
+      - DATADOG_HOST=datadog-agent
+      - DATADOG_PORT=8125
+    depends_on:
+      - backend
+      - datadog-agent
+    networks:
+      - iot-network
+    profiles:
+      - demo
+
+networks:
+  iot-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+  mongodb_config:
+  backend_logs:

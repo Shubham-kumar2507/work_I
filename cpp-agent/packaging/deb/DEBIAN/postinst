@@ -1,0 +1,46 @@
+#!/bin/bash
+# Post-installation script
+
+set -e
+
+# Create user and group if they don't exist
+if ! getent group iot-agent > /dev/null; then
+    groupadd --system iot-agent
+fi
+
+if ! getent passwd iot-agent > /dev/null; then
+    useradd --system --gid iot-agent --no-create-home \
+            --home-dir /nonexistent --shell /usr/sbin/nologin \
+            --comment "IoT Agent System User" iot-agent
+fi
+
+# Create directories
+mkdir -p /var/log/iot-agent
+mkdir -p /etc/iot-agent
+mkdir -p /opt/iot-agent
+
+# Set permissions
+chown -R iot-agent:iot-agent /var/log/iot-agent
+chown -R iot-agent:iot-agent /etc/iot-agent
+chmod 755 /etc/iot-agent
+chmod 644 /etc/iot-agent/config.json
+
+# Reload systemd
+systemctl daemon-reload
+
+# Enable service (but don't start yet - wait for configuration)
+systemctl enable iot-agent.service
+
+echo ""
+echo "========================================="
+echo "IoT Agent installed successfully!"
+echo "========================================="
+echo ""
+echo "Next steps:"
+echo "1. Edit /etc/iot-agent/config.json with your settings"
+echo "2. Start the service: sudo systemctl start iot-agent"
+echo "3. Check status: sudo systemctl status iot-agent"
+echo "4. View logs: sudo journalctl -u iot-agent -f"
+echo ""
+
+exit 0

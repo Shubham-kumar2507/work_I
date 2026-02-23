@@ -1,0 +1,11 @@
+{
+    "sampling_interval_ms": 1000,
+    "datadog_host": "localhost",
+    "datadog_port": 8125,
+    "agent_id": "agent-001",
+    "api_key": "",
+    "enable_anomaly_detection": true,
+    "anomaly_window_size": 100,
+    "anomaly_threshold": 3.0,
+    "use_http_api": false
+}

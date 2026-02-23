@@ -1,0 +1,18 @@
+Package: iot-agent
+Version: 1.0.0
+Section: utils
+Priority: optional
+Architecture: amd64
+Maintainer: Your Name <your.email@example.com>
+Description: High-performance C++ IoT monitoring agent
+ Lightweight monitoring agent for IoT devices that collects
+ system metrics (CPU, memory, disk, network) and sends them
+ to Datadog for centralized monitoring and alerting.
+ .
+ Features:
+  - Multi-threaded architecture
+  - DogStatsD and HTTP API support
+  - Real-time anomaly detection
+  - Sub-second metric collection
+  - < 50MB RAM footprint
+Depends: libc6 (>= 2.31), libcurl4 (>= 7.68.0), libssl1.1 (>= 1.1.1)
